@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(MSBuildThisFileDirectory)\..\Tests.Common.props" />
     <PropertyGroup>
-        <TargetFrameworks>net10.0;net8.0;net47</TargetFrameworks>
-        <DefineConstants>GUILABS;$(DefineConstants)</DefineConstants>
+      <!--<TargetFrameworks>net10.0;net8.0;net47;netstandard2.0</TargetFrameworks>-->
+      <TargetFrameworks>net8.0;net47;netstandard2.0</TargetFrameworks>
+      <DefineConstants>GUILABS;$(DefineConstants)</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="..\XamlParserTests\*.cs" />
