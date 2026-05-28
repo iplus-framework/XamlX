@@ -142,9 +142,23 @@ namespace XamlX.Transform
             if (provideValue == null)
             {
                 if (node.Type.IsMarkupExtension)
-                    context.ReportTransformError(
-                        $"{nodeType.GetFqn()} was resolved as markup extension, but doesn't have a matching ProvideValue/ProvideTypedValue method",
-                        node);
+                {
+                    // Some XAMLs use converter types in markup-extension syntax (e.g. {vb:MyConverter})
+                    // without implementing ProvideValue. Treat converter types as regular object values
+                    // and let later transformers handle assignment to Converter properties.
+                    // var valueConverterType = context.Configuration.TypeSystem.FindType("Avalonia.Data.Converters.IValueConverter");
+                    // var multiValueConverterType = context.Configuration.TypeSystem.FindType("Avalonia.Data.Converters.IMultiValueConverter");
+
+                    // var isConverterType = (valueConverterType != null && valueConverterType.IsAssignableFrom(nodeType))
+                    //                       || (multiValueConverterType != null && multiValueConverterType.IsAssignableFrom(nodeType));
+
+                    // if (!isConverterType)
+                    // {
+                        context.ReportTransformError(
+                            $"{nodeType.GetFqn()} was resolved as markup extension, but doesn't have a matching ProvideValue/ProvideTypedValue method",
+                            node);
+                    // }
+                }
                 
                 return false;
             }
