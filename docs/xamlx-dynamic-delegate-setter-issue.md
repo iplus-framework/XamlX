@@ -65,7 +65,9 @@ private static bool IsDelegateType(IXamlType? type)
 {
     while (type != null)
     {
-        if (type.FullName == "System.MulticastDelegate" || type.FullName == "System.Delegate")
+        // Check Namespace + Name for cross-platform compatibility.
+        // FullName can vary between .NET Framework and .NET Core (assembly qualifiers, etc.).
+        if (type.Namespace == "System" && (type.Name == "MulticastDelegate" || type.Name == "Delegate"))
             return true;
 
         type = type.BaseType;
